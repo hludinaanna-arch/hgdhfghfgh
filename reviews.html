@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackMyUni - Отзывы об онлайн-школах</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary-color: #5a5ce6; 
+            --primary-hover: #4a4cd6; 
+            --text-dark: #111; 
+            --text-gray: #6b7280; 
+            --bg-light: #f9fafb; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Outfit', sans-serif; background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        
+        /* Header */
+        header { background-color: #fff; padding: 1.5rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 0.8rem; font-size: 1.5rem; font-weight: 700; color: var(--text-dark); }
+        .logo svg { height: 40px; width: auto; }
+        .logo .highlight-my { color: var(--primary-color); }
+        nav { display: flex; gap: 2rem; align-items: center; }
+        nav a { font-weight: 500; color: var(--text-dark); transition: color 0.3s ease; }
+        nav a:hover { color: var(--primary-color); }
+        .auth-buttons { display: flex; gap: 1rem; }
+        .btn { padding: 0.6rem 1.5rem; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; display: inline-block; }
+        .btn-login { background-color: transparent; border-color: var(--primary-color); color: var(--primary-color); }
+        .btn-login:hover { background-color: var(--primary-color); color: #fff; }
+        .btn-signup { background-color: var(--primary-color); color: #fff; }
+        .btn-signup:hover { background-color: var(--primary-hover); }
+
+        /* Page Styles */
+        .page-header { 
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); 
+            padding: 4rem 0; 
+            border-bottom-left-radius: 3rem; 
+            border-bottom-right-radius: 3rem; 
+            margin-bottom: 3rem; 
+            text-align: center;
+        }
+        .page-title h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.02em; color: var(--primary-color); }
+        .page-title p { font-size: 1.2rem; color: var(--text-gray); margin-top: 1rem; }
+
+        /* Tabs */
+        .tabs-container { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
+        .tab-btn { 
+            padding: 1rem 2rem; 
+            border-radius: 50px; 
+            border: 2px solid #e5e7eb; 
+            background: #fff; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .tab-btn.active { 
+            background: var(--primary-color); 
+            color: #fff; 
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(90, 92, 230, 0.3);
+        }
+        .tab-btn:hover:not(.active) { border-color: var(--primary-color); color: var(--primary-color); }
+
+        /* Grid */
+        .schools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1.5rem; margin-bottom: 5rem; }
+        .school-card { 
+            background: #fff; 
+            padding: 2rem; 
+            border-radius: 1.5rem; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            display: flex; 
+            flex-direction: column; 
+            text-decoration: none;
+            color: inherit;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        .school-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(90, 92, 230, 0.1); border-color: var(--primary-color); }
+        
+        .school-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+        .school-name { font-size: 1.4rem; font-weight: 700; color: var(--text-dark); }
+        .school-rating { display: flex; align-items: center; gap: 0.3rem; color: #f59e0b; font-weight: 700; font-size: 1.1rem; }
+        
+        .school-subjects { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 1.5rem; line-height: 1.5; }
+        .school-subjects strong { color: var(--text-dark); }
+
+        .contact-row { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .contact-btn { 
+            flex: 1; 
+            padding: 0.6rem; 
+            border-radius: 8px; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            text-align: center; 
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-site { background: #eef2ff; color: var(--primary-color); border: 1px solid #e0e7ff; }
+        .btn-site:hover { background: var(--primary-color); color: #fff; }
+        .btn-phone { background: #f3f4f6; color: var(--text-dark); border: 1px solid #e5e7eb; }
+        .btn-phone:hover { background: var(--text-dark); color: #fff; }
+
+        .school-stats { margin-top: auto; padding-top: 1rem; border-top: 1px solid #f3f4f6; }
+        .stat-label { font-size: 0.85rem; color: var(--text-gray); margin-bottom: 0.3rem; display: block; }
+        .stat-value { font-size: 0.95rem; font-weight: 600; color: var(--text-dark); line-height: 1.4; }
+
+        @media (max-width: 768px) { 
+            .header-content { flex-direction: column; gap: 1.5rem; } 
+            nav { flex-wrap: wrap; justify-content: center; } 
+            .page-title h1 { font-size: 2.2rem; } 
+            .tabs-container { flex-direction: column; align-items: center; }
+            .tab-btn { width: 100%; max-width: 300px; text-align: center; }
+            .schools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M50 20L15 40L50 60L85 40L50 20Z" stroke="#1F2937" stroke-width="5" stroke-linejoin="round"/><path d="M25 50V75C25 75 35 85 50 85C65 85 75 75 75 75V50" stroke="#1F2937" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="85" cy="65" r="8" fill="#5A5CE6"/><path d="M75 55L85 65" stroke="#5A5CE6" stroke-width="3" stroke-linecap="round"/></svg>
+                <span>Track<span class="highlight-my">My</span>Uni</span>
+            </div>
+            <nav>
+                <a href="index.html">Главная</a>
+                <a href="universities.html">Вузы</a>
+                <a href="olympiads.html">Олимпиады</a>
+                <a href="volunteering.html">Волонтерство</a>
+                <a href="calendar.html">Календарь</a>
+                <a href="reviews.html" style="color: var(--primary-color);">Отзывы</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-login">Войти</a>
+                <a href="#" class="btn btn-signup">Регистрация</a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="page-header">
+            <div class="container page-title">
+                <h1>Онлайн-школы для подготовки</h1>
+                <p>Независимые отзывы, контакты и статистика баллов</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="oge">🎓 ОГЭ / Средняя школа</button>
+                <button class="tab-btn" data-tab="ege">🔥 ЕГЭ / 11 класс</button>
+            </div>
+            
+            <div class="schools-grid" id="schools-container">
+                <!-- Cards injected by JS -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // --- DATA FROM CSV FILES ---
+        const ogeSchools = [
+            { id: "foxford", name: "Фоксфорд", site: "https://foxford.ru", phone: "8 (800) 500-17-99", subjects: "<strong>ОГЭ:</strong> Мат, Рус, Физ, Хим, Био, Общ, Инф, Лит, Гео, Англ.<br><strong>Школа:</strong> Все предметы 1–11 кл.", score: "~4.5–5.0 (оценки). Точной статистики баллов нет, но 90% сдают без троек.", rating: 4 },
+            { id: "umskul", name: "Умскул", site: "https://umschool.net", phone: "8 (800) 302-02-02", subjects: "<strong>ОГЭ:</strong> Мат, Рус, Физ, Хим, Био, Общ, Инф, Лит, Гео, Англ.<br><strong>Школа:</strong> Углубленная программа 5–8 кл.", score: "85% учеников получают оценки «4» и «5».", rating: 4 },
+            { id: "tetrika", name: "Тетрика", site: "https://tetrika-school.ru", phone: "8 (800) 775-22-16", subjects: "<strong>Любые:</strong> Индивидуальный подбор репетитора по всем предметам школьной программы и ОГЭ.", score: "Зависит от репетитора. В отзывах отмечают рост на 1–2 балла за курс.", rating: 5 },
+            { id: "skysmart", name: "Skysmart", site: "https://skysmart.ru", phone: "8 (800) 333-77-03", subjects: "<strong>ОГЭ:</strong> Англ, Мат, Рус, Инф, Физ.<br><strong>Школа:</strong> Сильный упор на английский и математику.", score: "+1.5 балла к текущей средней оценке (по данным внутренних опросов).", rating: 5 },
+            { id: "sotka", name: "Сотка", site: "https://100ballnik.com", phone: "8 (800) 333-04-51", subjects: "<strong>ОГЭ:</strong> Пакеты (Мат+Рус+Общ+1 любой).<br><strong>Школа:</strong> Курсы для 7–8 классов.", score: "80% сдающих получают высокие баллы (4 и 5).", rating: 4 },
+            { id: "tutoronline", name: "TutorOnline", site: "https://tutoronline.ru", phone: "8 (800) 775-22-16", subjects: "<strong>Все предметы:</strong> От начальной школы до ОГЭ/ЕГЭ.", score: "Рост успеваемости на 30–40% (заявление школы).", rating: 4 },
+            { id: "interneturok", name: "ИнтернетУрок", site: "https://interneturok.ru", phone: "8 (800) 775-17-59", subjects: "<strong>Полная программа:</strong> 1–11 класс по всем предметам ФГОС.", score: "98% успешная аттестация при полном прохождении курса.", rating: 4 },
+            { id: "domznanij", name: "Дом знаний", site: "https://domznaniy.school", phone: "8 (800) 333-04-51", subjects: "<strong>Школа + ОГЭ:</strong> Все основные предметы.", score: "Высокая успеваемость, акцент на понимание материала.", rating: 5 },
+            { id: "online1", name: "Онлайн-школа №1", site: "https://online-school-1.ru", phone: "8 (800) 333-04-51", subjects: "<strong>Школа 1–11:</strong> Все предметы по программе.", score: "Стабильно хорошие оценки, строгий контроль.", rating: 4 },
+            { id: "lancman", name: "Lancman School", site: "https://lancmanschool.com", phone: "8 (800) 333-04-51", subjects: "<strong>Индивидуально:</strong> Любые предметы под запрос.", score: "Смешанные отзывы, результат сильно зависит от конкретного педагога.", rating: 3 }
+        ];
+
+        const egeSchools = [
+            { id: "godograf", name: "Годограф", site: "https://godograf.ru", phone: "8 (800) 333-04-51", subjects: "Мат (проф), Физ, Рус, Общ, Инф, Хим.", score: "<strong>Мат:</strong> 82+ <br> <strong>Физ:</strong> 78+ <br> <strong>Рус:</strong> 80+", rating: 5 },
+            { id: "umskul-ege", name: "Умскул", site: "https://umschool.net", phone: "8 (800) 302-02-02", subjects: "Все 14 предметов ЕГЭ.", score: "<strong>Общий средний:</strong> 83.1 <br> <strong>Рус/Общ:</strong> 85+ <br> <strong>Мат:</strong> 80+", rating: 4 },
+            { id: "insperia", name: "Insperia", site: "https://insperia.ru", phone: "8 (800) 333-04-51", subjects: "Все 14 предметов ЕГЭ.", score: "<strong>История:</strong> 82+ <br> <strong>Общий средний:</strong> 76–80", rating: 5 },
+            { id: "shkolkovo", name: "Школково", site: "https://shkolkovo.net", phone: "8 (800) 333-04-51", subjects: "Мат (проф/база), Физ, Инф, Рус, Лит.", score: "<strong>Мат (проф):</strong> 80+ <br> <strong>Инф:</strong> 85+ <br> <strong>Физ:</strong> 78+", rating: 4 },
+            { id: "sotka-ege", name: "Сотка", site: "https://100ballnik.com", phone: "8 (800) 333-04-51", subjects: "Пакеты из 4 предметов (чаще: Мат, Рус, Общ, Англ/Инф).", score: "<strong>Обществознание:</strong> 80+ <br> <strong>Средний по пакету:</strong> 75–78", rating: 4 },
+            { id: "foxford-ege", name: "Фоксфорд", site: "https://foxford.ru", phone: "8 (800) 500-17-99", subjects: "Все 14 предметов ЕГЭ.", score: "<strong>Общий средний:</strong> 78–80 <br> <strong>Гарантия:</strong> возврат при &lt;80 баллах.", rating: 4 },
+            { id: "99ballov", name: "99 Баллов", site: "https://99ballov.ru", phone: "8 (800) 333-04-51", subjects: "Мат, Рус, Общ, Физ, Хим, Био, Инф, Англ, Лит, История.", score: "<strong>Химия/Био:</strong> 76+ <br> <strong>Общий средний:</strong> 75–78", rating: 4 },
+            { id: "egeland", name: "ЕГЭLand", site: "https://egeland.ru", phone: "8 (800) 333-04-51", subjects: "10 предметов: Мат, Рус, Общ, Физ, Хим, Био, Инф, Англ, Лит, История.", score: "<strong>Литература:</strong> 80+ <br> <strong>Общий средний:</strong> 74–77", rating: 4 },
+            { id: "turbo", name: "Турбо ЕГЭ", site: "https://turbo-ege.ru", phone: "8 (800) 333-04-51", subjects: "Все основные предметы ЕГЭ.", score: "<strong>Английский:</strong> 82+ <br> <strong>Общий средний:</strong> 76–79", rating: 4 },
+            { id: "webium", name: "Вебиум", site: "https://webium.ru", phone: "8 (800) 333-04-51", subjects: "Все 14 предметов ЕГЭ.", score: "<strong>Русский язык:</strong> 80+ <br> <strong>Общий средний:</strong> 75–78", rating: 4 }
+        ];
+
+        let currentTab = 'oge';
+
+        function renderStars(rating) {
+            return '⭐'.repeat(rating);
+        }
+
+        function renderSchools() {
+            const container = document.getElementById('schools-container');
+            const data = currentTab === 'oge' ? ogeSchools : egeSchools;
+            
+            container.innerHTML = data.map(school => `
+                <a href="review-detail.html?id=${school.id}&type=${currentTab}" class="school-card">
+                    <div class="school-header">
+                        <div class="school-name">${school.name}</div>
+                        <div class="school-rating">${renderStars(school.rating)}</div>
+                    </div>
+                    
+                    <div class="contact-row">
+                        <a href="${school.site}" target="_blank" class="contact-btn btn-site" onclick="event.stopPropagation()">
+                            <i class="fa-solid fa-globe"></i> Сайт
+                        </a>
+                        <a href="tel:${school.phone.replace(/\s/g, '')}" class="contact-btn btn-phone" onclick="event.stopPropagation()">
+                            <i class="fa-solid fa-phone"></i> ${school.phone}
+                        </a>
+                    </div>
+
+                    <div class="school-subjects">${school.subjects}</div>
+                    
+                    <div class="school-stats">
+                        <span class="stat-label">Средние баллы / Успеваемость:</span>
+                        <div class="stat-value">${school.score}</div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Tab Switching Logic
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTab = btn.dataset.tab;
+                renderSchools();
+            });
+        });
+
+        // Initial Render
+        renderSchools();
+    </script>
+</body>
+</html>
